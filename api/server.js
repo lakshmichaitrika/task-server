@@ -10,9 +10,11 @@ server.use(helmet())
 server.use(express.json());
 
 
+server.get('/',(req,res)=>{
+    res.send("welcome to task")
+})
 
-
-server.get('//taskmanger/tasks.onrender.com',async(req,res)=>{
+server.get('/tasks',async(req,res)=>{
     //get all todos
     try{
         const tasks=await db('tasks');
@@ -25,7 +27,7 @@ server.get('//taskmanger/tasks.onrender.com',async(req,res)=>{
 
 })
 
-server.get('//taskmanger/tasks.onrender.com',async(req,res)=>{
+server.get('/tasks/:id',async(req,res)=>{
     //get all todos
     const {id}=req.params
     
@@ -41,7 +43,7 @@ server.get('//taskmanger/tasks.onrender.com',async(req,res)=>{
 
 })
 
-server.post('//taskmanager/tasks.onrender.com',async(req,res)=>{
+server.post('/tasks',async(req,res)=>{
     const {title,description}=req.body
     console.log(req.body)
     if (!title){
@@ -57,7 +59,7 @@ server.post('//taskmanager/tasks.onrender.com',async(req,res)=>{
 
 })
 
-server.put('https://taskmanager/tasks/:id.onrender.com',async(req,res)=>{
+server.put('/tasks/:id',async(req,res)=>{
     const {id}=req.params
     const {title,description}=req.body
     if (!title){
@@ -73,7 +75,7 @@ res.status(200).json({message:'Task updated successfully'})
 
 })
 
-server.delete('https://taskmanager/tasks/:id.onrender.com',async(req,res)=>{
+server.delete('/tasks/:id',async(req,res)=>{
     const {id}=req.params
     try{ 
 await db('tasks').where({id}).del()
